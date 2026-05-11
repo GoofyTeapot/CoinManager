@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="icon" href="YOUR_FAVICON_URL" type="image/png">
+<link rel="icon" href="https://en.wikipedia.org/wiki/Penny#/media/File:US_One_Cent_Obv.png" type="image/png">
 <title>Penny App</title>
 
 <style>
@@ -12,7 +12,7 @@
         margin: 0;
         padding: 0;
         height: 100vh;
-        background: url("YOUR_BACKGROUND_IMAGE_URL") center/cover no-repeat fixed;
+        background: url("https://i.etsystatic.com/28167078/r/il/37e64e/6117989325/il_1588xN.6117989325_dbew.jpg") center/cover no-repeat fixed;
         backdrop-filter: blur(8px);
         display: flex;
         justify-content: center;
@@ -21,7 +21,6 @@
         overflow: hidden;
     }
 
-    /* Metallic copper sheen */
     .metallic {
         background: linear-gradient(145deg, #b87333, #8a4b20, #c47a3c);
         background-size: 400% 400%;
@@ -34,7 +33,6 @@
         100% { background-position: 0% 50%; }
     }
 
-    /* Center container */
     .table-container {
         width: 75%;
         max-height: 80vh;
@@ -64,7 +62,6 @@
         background: rgba(60, 30, 10, 0.95);
     }
 
-    /* Glow text */
     .glow {
         color: white;
         text-shadow:
@@ -74,13 +71,11 @@
             -1px -1px 0 black;
     }
 
-    /* Hover animation */
     tr:hover td {
         background: rgba(255,255,255,0.15);
         transition: 0.2s;
     }
 
-    /* Search bar */
     #searchBox {
         width: 60%;
         padding: 12px;
@@ -93,7 +88,6 @@
         box-shadow: 0 0 10px rgba(255,255,255,0.4);
     }
 
-    /* Coin flip loader */
     #loader {
         position: absolute;
         width: 150px;
@@ -107,12 +101,10 @@
         100% { transform: rotateY(360deg); }
     }
 
-    /* Hide table until loaded */
     #appContent {
         display: none;
     }
 
-    /* Entry form */
     #entryForm {
         margin-bottom: 20px;
         padding: 15px;
@@ -139,20 +131,16 @@
         cursor: pointer;
         box-shadow: 0 0 10px rgba(255,255,255,0.4);
     }
-
 </style>
 </head>
 <body>
 
-<!-- Coin flip loader -->
-<img id="loader" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/2010_cent_obverse.png/600px-2010_cent_obverse.png">
+<img id="loader" src="https://en.wikipedia.org/wiki/Penny#/media/File:US_One_Cent_Obv.png">
 
 <div id="appContent">
 
-    <!-- Search bar -->
     <center><input id="searchBox" class="glow" placeholder="Search coins..."></center>
 
-    <!-- New entry form -->
     <center>
     <form id="entryForm">
         <input type="number" id="year" placeholder="Year">
@@ -201,7 +189,6 @@
 <script>
 const sheetURL = "YOUR_CSV_URL_HERE";
 
-/* Force 1.0–1.25 sec loading delay */
 const delay = 1000 + Math.random() * 250;
 
 setTimeout(() => {
@@ -210,7 +197,6 @@ setTimeout(() => {
     loadSheet();
 }, delay);
 
-/* Load CSV */
 async function loadSheet() {
     const response = await fetch(sheetURL);
     const text = await response.text();
@@ -233,7 +219,6 @@ async function loadSheet() {
     });
 }
 
-/* Search filter */
 document.getElementById("searchBox").addEventListener("input", function() {
     const filter = this.value.toLowerCase();
     const rows = document.querySelectorAll("#coinTable tbody tr");
@@ -245,9 +230,23 @@ document.getElementById("searchBox").addEventListener("input", function() {
     });
 });
 
-/* Submit new entry (requires Apps Script endpoint) */
 function submitEntry() {
-    alert("Entry submission requires your Google Apps Script endpoint. Say 'make the entry script' and I’ll generate it.");
+    const payload = {
+        year: document.getElementById("year").value,
+        mint: document.getElementById("mint").value,
+        posneg: document.getElementById("posneg").value,
+        denom: document.getElementById("denom").value,
+        weight: document.getElementById("weight").value
+    };
+
+    fetch("https://script.google.com/macros/s/AKfycbwp3GNIehSFzeI7SNxjUax0hnk4z4jCKl6RzLGf7NXDrEnk9fWN9_NkOquD5QpKpYD-/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    });
+
+    alert("Entry submitted.");
 }
 </script>
 
