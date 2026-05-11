@@ -205,20 +205,26 @@ async function loadSheet() {
     const tbody = document.querySelector("#coinTable tbody");
 
     rows.forEach(row => {
-        const cols = row.split(",");
-        if (cols.length < 5) return;
+        // FORCE ONLY COLUMNS A–E
+        const cols = row.split(",").slice(0, 5);
+
+        // Skip empty rows
+        if (cols.every(c => c.trim() === "")) return;
 
         const tr = document.createElement("tr");
+
         cols.forEach(col => {
             const td = document.createElement("td");
             td.classList.add("glow");
             td.textContent = col.trim();
             tr.appendChild(td);
         });
+
         tbody.appendChild(tr);
     });
 }
 
+// SEARCH FUNCTION — RESTORED TO ORIGINAL WORKING VERSION
 document.getElementById("searchBox").addEventListener("input", function() {
     const filter = this.value.toLowerCase();
     const rows = document.querySelectorAll("#coinTable tbody tr");
@@ -249,6 +255,7 @@ function submitEntry() {
     alert("Entry submitted.");
 }
 </script>
+
 
 </body>
 </html>
